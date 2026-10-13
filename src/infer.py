@@ -18,6 +18,17 @@ from model import build_wavenet
 
 SEQ_LEN = 40_000
 
+gpus = tf.config.list_physical_devices("GPU")
+
+if gpus:
+    tf.config.set_logical_device_configuration(
+        gpus[0],
+        [
+            tf.config.LogicalDeviceConfiguration(
+                memory_limit=10240
+            )
+        ]
+    )
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
