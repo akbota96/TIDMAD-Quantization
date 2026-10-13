@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+.env
+
+# macOS
+.DS_Store
+
+# TIDMAD datasets and model checkpoints
+*.h5
+*.hdf5
+*.pth
+*.pt
+*.keras
+
+# Generated results
+results/
+logs/
+fresh_fp32_results/
+fresh_fp32_inference/
+
+# SLURM logs
+slurm-*.out
+slurm-*.err
