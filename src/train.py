@@ -19,8 +19,17 @@ from model import build_wavenet
 # TensorFlow normally reserves most GPU VRAM at initialization. The shared
 # ligroup workstation enforces a 16 GiB per-user quota for the tidmad account.
 # Enable on-demand allocation BEFORE creating the model or using the GPU.
-for gpu in tf.config.list_physical_devices("GPU"):
-    tf.config.experimental.set_memory_growth(gpu, True)
+gpus = tf.config.list_physical_devices("GPU")
+
+if gpus:
+    tf.config.set_logical_device_configuration(
+        gpus[0],
+        [
+            tf.config.LogicalDeviceConfiguration(
+                memory_limit=14336
+            )
+        ]
+    )
 
 SEQ_LEN = 40_000
 SAMPLE_SIZE = 10
