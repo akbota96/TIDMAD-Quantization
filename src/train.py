@@ -26,7 +26,7 @@ if gpus:
         gpus[0],
         [
             tf.config.LogicalDeviceConfiguration(
-                memory_limit=14336
+                memory_limit=10240
             )
         ]
     )
