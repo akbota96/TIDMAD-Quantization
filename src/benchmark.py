@@ -48,10 +48,19 @@ def peak_index(power):
 
 
 def snr_at_peak(freq, power, index):
-    signal = np.sum(power[index - 1:index + 2])
-    noise = np.sum(power[index - 50:index + 51]) - signal
-    return float(signal / noise), float(freq[index])
+    if index < 50 or index + 50 >= len(power):
+        raise ValueError(f"Peak index {index} too close to PSD boundary")
 
+    signal = np.sum(power[index - 1:index + 2], dtype=np.float64)
+
+    noise_left = np.sum(power[index - 50:index - 1], dtype=np.float64)
+    noise_right = np.sum(power[index + 2:index + 51], dtype=np.float64)
+    noise = noise_left + noise_right
+
+    if noise <= 0 or not np.isfinite(noise):
+        raise ValueError(f"Invalid noise estimate: {noise}")
+
+    return float(signal / noise), float(freq[index])
 
 def score_one_second(work):
     file_name, second = work
